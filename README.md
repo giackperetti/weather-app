@@ -6,10 +6,12 @@ This application provides up-to-date weather information on a daily basis, seaml
 
 ### Technologies used
 
-- Flask
+- Validators
 
 - Tkinter
 
 - SQLite
+
+- Requests
 
 ---
