@@ -5,4 +5,5 @@ CREATE TABLE users (
     creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     name TEXT NOT NULL
     password TEXT NOT NULL
+    favorite_city TEXT
 );
