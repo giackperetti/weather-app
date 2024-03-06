@@ -7,7 +7,7 @@ with open('users.sql') as f:
 
 db_cursor: sqlite3.Cursor = connection.cursor()
 
-db_cursor.execute("INSERT INTO users (name) VALUES (?)", ('Admin',))
+db_cursor.execute("INSERT INTO users (name) VALUES (?)", ('admin',))
 
 connection.commit()
 connection.close()
