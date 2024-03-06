@@ -9,6 +9,7 @@ class User:
         :param str password: user password to login to the app
         :param int id: unique identifier different for each user
         :param datetime creation_date: date at which the user account was created
+        :author Giacomo Peretti
         '''
         
         self.__username: str = username
@@ -22,6 +23,7 @@ class User:
         get_username: Method that returns the user's username
 
         :return str username: user's username
+        :author Giacomo Peretti
         '''
         return self.__username
     
@@ -30,6 +32,7 @@ class User:
         set_username: Method that updates the user's username
 
         :param str new_username: new username to update the current value
+        :author Giacomo Peretti
         '''
         self.__username: str = new_username
     
@@ -38,6 +41,7 @@ class User:
         get_password: Method that returns the user's password
 
         :return str password: user's password
+        :author Giacomo Peretti
         '''
         return self.__password
     
@@ -45,7 +49,8 @@ class User:
         '''
         set_password: Method that updates the user's password
 
-        :param str new_password: new password to update the current value 
+        :param str new_password: new password to update the current value
+        :author Giacomo Peretti
         '''
         self.__password: str = new_password
     
@@ -54,6 +59,7 @@ class User:
         get_id: Method that returns the user's unique id
 
         :return int id: user's unique id
+        :author Giacomo Peretti
         '''
         return self.__id
     
@@ -62,6 +68,7 @@ class User:
         set_id: Method that updates the user's id
 
         :param int new_id: new id to update the current value
+        :author Giacomo Peretti
         '''
         self.__id: int = new_id
 
@@ -70,6 +77,7 @@ class User:
         get_creation_date: Method that returns the user's creation date
 
         :return datetime creation_date: user's creation date
+        :author Giacomo Peretti
         '''
         return self.__creation_date
 
@@ -78,6 +86,7 @@ class User:
         get_favorite_city: Method that returns the user's favorite city
 
         :return str favorite_city: user's favorite city
+        :author Giacomo Peretti
         '''
         return self.__favorite_city
     
@@ -86,6 +95,7 @@ class User:
         set_favorite_city: Method that updates the user's favorite city
 
         :param str new_favorite_city: new favorite city to update the current value
+        :author Giacomo Peretti
         '''
         self.__favorite_city: str = new_favorite_city
         
