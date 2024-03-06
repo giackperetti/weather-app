@@ -63,4 +63,5 @@ class Request:
             return f"Request Exception: {e}"
         except Exception as e:
             return f"Generic Exception: {e}"
+        
         return response.json()
