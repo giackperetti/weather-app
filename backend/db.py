@@ -11,11 +11,22 @@ class DB_Interactions:
         self.db_cursor: sqlite3.Cursor = self.connection.cursor()
 
     def create_connection(self) -> sqlite3.Connection:
+        """
+        create_connection: Method that handles the creation of the connection to the database
+
+        :return sqlite3.Connection: the connection to the database itself
+        """
         self.connection = sqlite3.connect("./backend/users.db")
         self.connection.row_factory = sqlite3.Row
         return self.connection
 
     def add_user(self, User: User) -> bool:
+        """
+        add_user: Method that creates a new user and saves it to the database
+
+        :param User User: The user that has to be added
+        :return bool adding_success: boolean flag that is True if the user is added successfully and is False if the user creation doesnt go well
+        """
         adding_success: bool
         user_id: int = User.get_id()
         user_creation_date = User.get_creation_date()
