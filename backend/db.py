@@ -59,14 +59,3 @@ class DB_Interactions:
             status = f"There was an error: {e}"
 
         return status, adding_success
-
-
-def main() -> None:
-    user = User("nome", "password", "test")
-    db = DB_Interactions()
-    print(db.add_user(user=user))
-
-    print(user.get_id())
-
-if __name__ == "__main__":
-    main()
