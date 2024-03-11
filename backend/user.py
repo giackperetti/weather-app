@@ -15,8 +15,8 @@ class User:
 
         self.__username: str = username
         self.__password: str = password
-        self.__id: int
-        self.__creation_date: datetime
+        self.__id: int = None
+        self.__creation_date: datetime = None
         self.__favorite_city: str = favorite_city
 
     def get_username(self) -> str:
@@ -35,7 +35,7 @@ class User:
         :param str new_username: new username to update the current value
         :author Giacomo Peretti
         """
-        self.__username: str = new_username
+        self.__username = new_username
 
     def get_password(self) -> str:
         """
@@ -53,7 +53,7 @@ class User:
         :param str new_password: new password to update the current value
         :author Giacomo Peretti
         """
-        self.__password: str = new_password
+        self.__password = new_password
 
     def get_id(self) -> int:
         """
@@ -71,7 +71,7 @@ class User:
         :param int new_id: new id to update the current value
         :author Giacomo Peretti
         """
-        self.__id: int = new_id
+        self.__id = new_id
 
     def get_creation_date(self) -> datetime:
         """
@@ -81,6 +81,15 @@ class User:
         :author Giacomo Peretti
         """
         return self.__creation_date
+    
+    def set_creation_date(self, new_date: datetime) -> None:
+        """
+        set_id: Method that updates the user's id
+
+        :param int new_id: new id to update the current value
+        :author Giacomo Peretti
+        """
+        self.__creation_date = new_date
 
     def get_favorite_city(self) -> str:
         """
@@ -98,4 +107,4 @@ class User:
         :param str new_favorite_city: new favorite city to update the current value
         :author Giacomo Peretti
         """
-        self.__favorite_city: str = new_favorite_city
+        self.__favorite_city = new_favorite_city

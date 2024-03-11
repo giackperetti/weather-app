@@ -1,5 +1,6 @@
 import sqlite3
 from user import User
+from typing import Tuple
 
 
 class DB_Interactions:
@@ -20,35 +21,52 @@ class DB_Interactions:
         self.connection.row_factory = sqlite3.Row
         return self.connection
 
-    def add_user(self, User: User) -> bool:
+    def add_user(self, user: User) -> Tuple[str, bool]:
         """
         add_user: Method that creates a new user and saves it to the database
 
         :param User User: The user that has to be added
         :return bool adding_success: boolean flag that is True if the user is added successfully and is False if the user creation doesnt go well
         """
-        adding_success: bool
-        user_id: int = User.get_id()
-        user_creation_date = User.get_creation_date()
-        username: str = User.get_username()
-        user_password: str = User.get_password()
-        user_city: str = User.get_favorite_city()
+        adding_success: bool = None
+        status: str = None
+        username: str = user.get_username()
+        user_password: str = user.get_password()
+        user_city: str = user.get_favorite_city()
 
         try:
             self.db_cursor.execute(
-                "INSERT INTO users (id, creation_date, name, password, favorite_city) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO users (name, password, favorite_city) VALUES (?, ?, ?)",
                 (
-                    user_id,
-                    user_creation_date,
                     username,
                     user_password,
                     user_city,
                 ),
             )
+
+            self.db_cursor.execute(
+                "SELECT id, creation_date FROM users WHERE name = ?", (username,)
+            )
+            row = self.db_cursor.fetchone()
+            if row:
+                user.set_id(row["id"])
+                user.set_creation_date(row["creation_date"])
             self.connection.commit()
             adding_success = True
+            status = "user added succesfully"
         except Exception as e:
-            print(e)
             adding_success = False
+            status = f"There was an error: {e}"
 
-        return adding_success
+        return status, adding_success
+
+
+def main() -> None:
+    user = User("nome", "password", "test")
+    db = DB_Interactions()
+    print(db.add_user(user=user))
+
+    print(user.get_id())
+
+if __name__ == "__main__":
+    main()
