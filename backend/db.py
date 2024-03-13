@@ -25,8 +25,8 @@ class DB_Interactions:
         """
         add_user: Method that creates a new user and saves it to the database
 
-        :param User User: The user that has to be added
-        :return bool adding_success: boolean flag that is True if the user is added successfully and is False if the user creation doesnt go well
+        :param User user: The user that has to be added
+        :return Tuple[str, bool]: the first value in the tuple is a string that contatins a message about the creation of the user, the second value is a boolean value that is True if the user is added correctly and False if there is a problem
         """
         adding_success: bool = None
         status: str = None
@@ -53,9 +53,29 @@ class DB_Interactions:
                 user.set_creation_date(row["creation_date"])
             self.connection.commit()
             adding_success = True
-            status = "user added succesfully"
+            status = "User added succesfully"
         except Exception as e:
             adding_success = False
             status = f"There was an error: {e}"
 
         return status, adding_success
+
+    def delete_user(self, user: User) -> Tuple[str, bool]:
+        """
+        delete_user: Method that deletes an exising user and saves it to the database
+
+        :param User user: The user that has to be added
+        :return Tuple[str, bool]: the first value in the tuple is a string that contatins a message about the creation of the user, the second value is a boolean value that is True if the user is added correctly and False if there is a problem
+        """
+
+        deletion_success: bool = None
+        status: str = None
+        user_id: int = user.get_id()
+
+        try:
+            self.db_cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+            deletion_success = True
+            status = "User deleted succesfully"
+        except Exception as e:
+            deletion_success = False
+            status = f"There was an error: {e}"
