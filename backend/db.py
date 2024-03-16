@@ -79,3 +79,5 @@ class DB_Interactions:
         except Exception as e:
             deletion_success = False
             status = f"There was an error: {e}"
+
+        return status, deletion_success
