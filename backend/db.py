@@ -3,10 +3,10 @@ from user import User
 from typing import Tuple
 
 
-class DB_Interactions:
+class DB:
     def __init__(self) -> None:
         """
-        __init__: Method that constructs an oject of class DB_Interactions, creating a connection to the database and creating a cursorto browse the daatbase's conents
+        __init__: Method that constructs an oject of class DB, creating a connection to the database and creating a cursorto browse the daatbase's conents
         """
         self.connection = self.handle_connection()
         self.db_cursor: sqlite3.Cursor = self.connection.cursor()
@@ -20,6 +20,17 @@ class DB_Interactions:
         self.connection = sqlite3.connect("./backend/users.db")
         self.connection.row_factory = sqlite3.Row
         return self.connection
+
+    def close_connection(self) -> bool:
+        connection_closing_success: bool = True
+
+        try:
+            self.connection.close()
+            connection_closing_success = True
+        except Exception as e:
+            connection_closing_success = False
+
+        return connection_closing_success
 
     def add_user(self, user: User) -> Tuple[str, bool]:
         """
@@ -52,7 +63,6 @@ class DB_Interactions:
                 user.set_id(row["id"])
                 user.set_creation_date(row["creation_date"])
             self.connection.commit()
-            self.connection.close()
             adding_success = True
             status = "User added succesfully"
         except Exception as e:
@@ -76,7 +86,6 @@ class DB_Interactions:
         try:
             self.db_cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
             self.connection.commit()
-            self.connection.close()
             deletion_success = True
             status = "User deleted succesfully"
         except Exception as e:
@@ -84,8 +93,10 @@ class DB_Interactions:
             status = f"There was an error: {e}"
 
         return status, deletion_success
-    
-    def edit_user(self, user: User, new_username: str, new_password: str, new_favorite_city: str) -> Tuple[str, bool]:
+
+    def edit_user(
+        self, user: User, new_username: str, new_password: str, new_favorite_city: str
+    ) -> Tuple[str, bool]:
         """
         edit_user: Method that edits an exising user and saves it to the database
 
@@ -98,19 +109,42 @@ class DB_Interactions:
         current_username: str = user.get_username()
         current_user_password: str = user.get_password()
         current_user_city: str = user.get_favorite_city()
+        user_id: int = user.get_id()
 
         try:
             if new_username != "":
                 current_username = user.set_username(new_username)
+                self.db_cursor.execute(
+                    "UPDATE users SET name = ? WHERE id = ?",
+                    (
+                        new_username,
+                        user_id,
+                    ),
+                )
                 status += "username, "
 
             if new_password != "":
                 current_user_password = user.set_password(new_password)
+                self.db_cursor.execute(
+                    "UPDATE users SET password = ? WHERE id = ?",
+                    (
+                        new_password,
+                        user_id,
+                    ),
+                )
                 status += "password, "
             if new_favorite_city != "":
                 current_user_city = user.set_favorite_city(new_favorite_city)
+                self.db_cursor.execute(
+                    "UPDATE users SET favorite_city = ? WHERE id = ?",
+                    (
+                        new_favorite_city,
+                        user_id,
+                    ),
+                )
                 status += "favorite city, "
 
+            self.connection.commit()
             editing_success = True
             status += "edited succesfully"
 
@@ -119,3 +153,17 @@ class DB_Interactions:
             status = f"There was an error: {e}"
 
         return status, editing_success
+
+
+def main() -> None:
+    test = User("delete me", "wow1123", "turin")
+    db = DB()
+
+    # print(db.add_user(test))
+    # print(test.get_id())
+
+    print(db.edit_user(test, "new name", "", "new york"))
+
+
+if __name__ == "__main__":
+    main()
