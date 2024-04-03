@@ -54,27 +54,30 @@ class LoginPage(tk.Frame):
         self.frame_login:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
         self.frame_login.pack(pady=30, ipadx=200, ipady=400)
 
-        self.label:tk.Label = ttk.Label(self.frame_login, text="Login", font=("Cascadia Code",40))
+        self.label:ttk.Label = ttk.Label(self.frame_login, text="Login", font=("Cascadia Code",40))
         self.label.pack(pady=10)
 
-        self.username:tk.Label = ttk.Label(self.frame_login, text="Username", font=("Cascadia Code",15))
+        self.username:ttk.Label = ttk.Label(self.frame_login, text="Username", font=("Cascadia Code",15))
         self.username.place(y=180, x=120)
 
-        self.entry_username:tk.Entry = ttk.Entry(self.frame_login, width=30, font=("Cascadia Code",15))
+        self.entry_username:ttk.Entry = ttk.Entry(self.frame_login, width=30, font=("Cascadia Code",15))
         self.entry_username.place(y=220, x=120)
 
-        self.password:tk.Label = ttk.Label(self.frame_login, text="Password", font=("Cascadia Code",15))
+        self.password:ttk.Label = ttk.Label(self.frame_login, text="Password", font=("Cascadia Code",15))
         self.password.place(y=260, x=120)
 
-        self.entry_password:tk.Entry = ttk.Entry(self.frame_login, width=30, font=("Cascadia Code",15))
+        self.entry_password:ttk.Entry = ttk.Entry(self.frame_login, width=30, font=("Cascadia Code",15))
         self.entry_password.place(y=300, x=120)
 
         self.link_sign_up:tk.Label = tk.Label(self, text="Are you not registered yet ?",fg="blue" ,font=("Cascadia Code",12, "underline"), cursor="hand2")
         self.link_sign_up.place(y=380, x=160)
         self.link_sign_up.bind("<Button-1>", lambda e: master.switch_frame(SignUpPage))
 
-        self.button:tk.Button = tk.Button(self, text="Invia", font=("cascadia Code",15), cursor="hand2")
+        self.button:tk.Button = tk.Button(self, text="Invia", font=("cascadia Code",15), cursor="hand2", command=self.login)
         self.button.place(y=430, x=250)
+
+    def login(self):
+        pass
 
 class SignUpPage(tk.Frame):
     """
@@ -96,19 +99,19 @@ class SignUpPage(tk.Frame):
         self.frame_sign_up:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
         self.frame_sign_up.pack(pady=30, ipadx=200, ipady=400)
 
-        self.label:tk.Label = ttk.Label(self.frame_sign_up, text="Sign Up", font=("Cascadia Code",40))
+        self.label:ttk.Label = ttk.Label(self.frame_sign_up, text="Sign Up", font=("Cascadia Code",40))
         self.label.pack(pady=10)
 
-        self.username:tk.Label = ttk.Label(self.frame_sign_up, text="Username", font=("Cascadia Code",15))
+        self.username:ttk.Label = ttk.Label(self.frame_sign_up, text="Username", font=("Cascadia Code",15))
         self.username.place(y=180, x=120)
 
-        self.entry_username:tk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15))
+        self.entry_username:ttk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15))
         self.entry_username.place(y=220, x=120)
 
-        self.password:tk.Label = ttk.Label(self.frame_sign_up, text="Password", font=("Cascadia Code",15))
+        self.password:ttk.Label = ttk.Label(self.frame_sign_up, text="Password", font=("Cascadia Code",15))
         self.password.place(y=260, x=120)
 
-        self.entry_password:tk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15))
+        self.entry_password:ttk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15))
         self.entry_password.place(y=300, x=120)
 
         self.favourite_city:tk.Label = ttk.Label(self.frame_sign_up, text="City", font=("Cascadia Code",15))
@@ -122,8 +125,11 @@ class SignUpPage(tk.Frame):
 
         self.link_sign_up.bind("<Button-1>", lambda e: master.switch_frame(LoginPage))
 
-        self.button:tk.Button = tk.Button(self, text="Invia", font=("cascadia Code",15), cursor="hand2")
+        self.button:tk.Button = tk.Button(self, text="Invia", font=("cascadia Code",15), cursor="hand2", command=self.signup)
         self.button.place(y=530, x=270)
+
+    def signup(self):
+        pass
 
 
 class WeatherApp(tk.Frame):
@@ -146,16 +152,16 @@ class WeatherApp(tk.Frame):
         self.frame_weather_app:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
         self.frame_weather_app.pack(pady=30, ipadx=200, ipady=400)
 
-        self.title:tk.Label = ttk.Label(self.frame_weather_app, text="Weather App", font=("Cascadia Code", 40))
+        self.title:ttk.Label = ttk.Label(self.frame_weather_app, text="Weather App", font=("Cascadia Code", 40))
         self.title.pack(pady=10)
 
-        self.temperature:tk.Label = ttk.Label(self.frame_weather_app, text="25°", font=("Cascadia Code", 30))
+        self.temperature:ttk.Label = ttk.Label(self.frame_weather_app, text="25°", font=("Cascadia Code", 30))
         self.temperature.place(relx=0.5, rely=0.4, anchor="center")
 
-        self.location:tk.Label = ttk.Label(self.frame_weather_app, text="Venezia", font=("Cascadia Code", 30))
+        self.location:ttk.Label = ttk.Label(self.frame_weather_app, text="Venezia", font=("Cascadia Code", 30))
         self.location.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.location_entry:tk.Entry = ttk.Entry(self.frame_weather_app, font=("Cascadia Code", 20))
+        self.location_entry:ttk.Entry = ttk.Entry(self.frame_weather_app, font=("Cascadia Code", 20), justify="center")
         self.location_entry.place(relx=0.5, rely=0.7, anchor="center")
 
         self.change_location_button:tk.Button = tk.Button(self.frame_weather_app, text="Cambia Località", font=("Cascadia Code", 15),command=self.change_location, cursor="hand2")
@@ -166,9 +172,14 @@ class WeatherApp(tk.Frame):
         Metodo per cambiare la località utilizzando l'input dell'utente.
         """
         new_location = self.location_entry.get()
-        self.location.config(text=new_location)
+        if new_location == "":
+            self.location.config(text="Inserisci una località")
+        else:
+            self.location.config(text=new_location)
         
 
 if __name__ == "__main__":
     root = App()
     root.mainloop()
+
+#https://api.openweathermap.org/data/3.0/onecall?temp={temperature}&current[weather][icon]={icon}&timezone={city}&units={metric}&appid={API key}
