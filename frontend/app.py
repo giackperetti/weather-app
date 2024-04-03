@@ -1,5 +1,13 @@
 import tkinter as tk
 from tkinter import ttk
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
+# Now try your imports
+from backend import db 
+from backend import api_requests
+
         
 class App(tk.Tk):
     """
@@ -49,6 +57,7 @@ class LoginPage(tk.Frame):
         :param tk.Tk master: riferimento al widget padre
         """
         tk.Frame.__init__(self, master)
+        self.master = master
 
         #widget
         self.frame_login:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
@@ -77,7 +86,16 @@ class LoginPage(tk.Frame):
         self.button.place(y=430, x=250)
 
     def login(self):
-        pass
+        username = self.entry_username.get()
+        password = self.entry_password.get()
+
+        if username is not None and password is not None:
+            database = db.DB()
+            print(database.login(username, password))
+            del database
+            self.master.switch_frame(WeatherApp)
+        else:
+            print("Campi di testo vuoti")
 
 class SignUpPage(tk.Frame):
     """
@@ -93,6 +111,7 @@ class SignUpPage(tk.Frame):
         :param tk.Tk master: riferimento al widget padre
         """
         tk.Frame.__init__(self, master)
+        self.master = master
 
         #widget
 
@@ -129,7 +148,17 @@ class SignUpPage(tk.Frame):
         self.button.place(y=530, x=270)
 
     def signup(self):
-        pass
+        username = self.entry_username.get()
+        password = self.entry_password.get()
+        city = self.entry_favourite_city.get()
+
+        if username is not None and password is not None and city is not None:
+            database = db.DB()
+            database.signup(username, password, city)
+            del database
+            self.master.switch_frame(WeatherApp)
+        else:
+            print("Campi di testo vuoti :)")
 
 
 class WeatherApp(tk.Frame):
