@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from geopy.geocoders import Nominatim
 import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
@@ -185,26 +186,21 @@ class WeatherApp(tk.Frame):
         self.title.pack(pady=10)
 
         self.temperature:ttk.Label = ttk.Label(self.frame_weather_app, text="25°", font=("Cascadia Code", 30))
-        self.temperature.place(relx=0.5, rely=0.4, anchor="center")
+        self.temperature.place(relx=0.5, rely=0.3, anchor="center")
 
         self.location:ttk.Label = ttk.Label(self.frame_weather_app, text="Venezia", font=("Cascadia Code", 30))
-        self.location.place(relx=0.5, rely=0.5, anchor="center")
+        self.location.place(relx=0.5, rely=0.4, anchor="center")
 
-        self.location_entry:ttk.Entry = ttk.Entry(self.frame_weather_app, font=("Cascadia Code", 20), justify="center")
-        self.location_entry.place(relx=0.5, rely=0.7, anchor="center")
+        self.submit_button:tk.Button = tk.Button(self.frame_weather_app, text="Invia", font=("Cascadia Code",15), cursor="hand2", command=self.request)
+        self.submit_button.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.change_location_button:tk.Button = tk.Button(self.frame_weather_app, text="Cambia Località", font=("Cascadia Code", 15),command=self.change_location, cursor="hand2")
-        self.change_location_button.place(relx=0.5, rely=0.8, anchor="center")
+    def request(self):
+        city = self.location.cget("text")
 
-    def change_location(self):
-        """
-        Metodo per cambiare la località utilizzando l'input dell'utente.
-        """
-        new_location = self.location_entry.get()
-        if new_location == "":
-            self.location.config(text="Inserisci una località")
-        else:
-            self.location.config(text=new_location)
+        if city is not None:
+            geolocator = Nominatim(user_agent="Pinin meteo")
+            location = geolocator.geocode(f"{city}")
+            print((location.latitude, location.longitude))
         
 
 
