@@ -178,8 +178,5 @@ class WeatherApp(tk.Frame):
             self.location.config(text=new_location)
         
 
-if __name__ == "__main__":
-    root = App()
-    root.mainloop()
 
 #https://api.openweathermap.org/data/3.0/onecall?temp={temperature}&current[weather][icon]={icon}&timezone={city}&units={metric}&appid={API key}
