@@ -14,4 +14,6 @@ This application provides up-to-date weather information on a daily basis, seaml
 
 - Requests
 
+- Geopy
+
 ---
