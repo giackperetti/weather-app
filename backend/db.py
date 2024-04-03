@@ -20,10 +20,12 @@ class DB:
         self, username: str, user_password: str, user_city: str
     ) -> Tuple[str, bool]:
         """
-        add_user: Method that creates a new user and saves it to the database
+        signup: Method that creates a new user and saves it to the database
 
-        :param User user: The user that has to be added
-        :return Tuple[str, bool]: the first value in the tuple is a string that contatins a message about the creation of the user, the second value is a boolean value that is True if the user is added correctly and False if there is a problem
+        :param str username: The username of the user that has to be added
+        :param str user_password: The password of the user that has to be added
+        :param str user_city: The favorite city of the user that has to be added
+        :return Tuple[str, bool]: The first value in the tuple is a string that contains a message about the creation of the user, the second value is a boolean value that is True if the user is added correctly and False if there is a problem
         """
 
         adding_success: bool = None
@@ -65,7 +67,7 @@ class DB:
                 # user.set_creation_date(date)
             conn.commit()
             adding_success = True
-            status = "User added succesfully"
+            status = "User added successfully"
         except Exception as e:
             adding_success = False
             status = f"There was an error: {e}"
@@ -76,6 +78,13 @@ class DB:
         return status, adding_success
 
     def login(self, input_username: str, input_password: str) -> Tuple[str, bool]:
+        """
+        login: Method that checks if a user exists
+
+        :param str input_username: The username of the user that has to log in
+        :param str input_password: The password of the user that has to log in
+        :return Tuple[str, bool]: The first value in the tuple is a string that contains a message about the existence of the user, the second value is a boolean value that is True if the user is exists and False if it doesn't
+        """
         login_success: bool = None
         status: str = None
 
@@ -90,7 +99,7 @@ class DB:
 
             if db_cursor.fetchone():
                 login_success = True
-                status = "User logged in succesfully"
+                status = "User logged in successfully"
             else:
                 login_success = False
                 status = "Invalid username or password"
