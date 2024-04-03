@@ -26,6 +26,7 @@ class DB:
         :param str user_password: The password of the user that has to be added
         :param str user_city: The favorite city of the user that has to be added
         :return Tuple[str, bool]: The first value in the tuple is a string that contains a message about the creation of the user, the second value is a boolean value that is True if the user is added correctly and False if there is a problem
+        :author Giacomo Peretti
         """
 
         adding_success: bool = None
@@ -40,12 +41,12 @@ class DB:
 
             db_cursor.execute("SELECT * FROM users WHERE name = ?", (username,))
             existing_user = db_cursor.fetchall()
-            
+
             if existing_user:
                 adding_success = False
                 status = "User already exists"
                 return status, adding_success
-            
+
             db_cursor.execute(
                 "INSERT INTO users (name, password, favorite_city) VALUES (?, ?, ?)",
                 (
@@ -63,8 +64,8 @@ class DB:
             # if row:
             #     id = row["max_id"]
             #     date = row["creation_date"]
-                # user.set_id(id)
-                # user.set_creation_date(date)
+            # user.set_id(id)
+            # user.set_creation_date(date)
             conn.commit()
             adding_success = True
             status = "User added successfully"
@@ -84,7 +85,9 @@ class DB:
         :param str input_username: The username of the user that has to log in
         :param str input_password: The password of the user that has to log in
         :return Tuple[str, bool]: The first value in the tuple is a string that contains a message about the existence of the user, the second value is a boolean value that is True if the user is exists and False if it doesn't
+        :author Giacomo Peretti
         """
+
         login_success: bool = None
         status: str = None
 
@@ -94,7 +97,10 @@ class DB:
 
             db_cursor.execute(
                 "SELECT * FROM users WHERE name = ? AND password = ?",
-                (input_username, input_password,),
+                (
+                    input_username,
+                    input_password,
+                ),
             )
 
             if db_cursor.fetchone():
@@ -111,6 +117,36 @@ class DB:
                 conn.close()
 
         return status, login_success
+
+    def user_city(self, username: str) -> str:
+
+        return_success: bool = None
+        city: str = None
+
+        try:
+            conn = self.create_connection()
+            db_cursor = conn.cursor()
+
+            db_cursor.execute(
+                "SELECT favorite_city FROM users WHERE name = ?",
+                (username,),
+            )
+
+            row = db_cursor.fetchone()
+            if row:
+                city = row["favorite_city"]
+                return_success = True
+            else:
+                city = ""
+                return_success = False
+        except Exception as e:
+            login_success = False
+            city = f"There was an error: {e}"
+        finally:
+            if conn:
+                conn.close()
+
+        return city
 
     # def delete_user(self, username: str, user_password: str, user_city: str) -> Tuple[str, bool]:
     #     """
