@@ -23,7 +23,7 @@ class App(tk.Tk):
         """
         tk.Tk.__init__(self)
         self.frame = None
-        self.switch_frame(SignUpPage)
+        self.switch_frame(WeatherApp)
 
         self.title("Pinin meteo")
         self.geometry("1280x720")
@@ -180,19 +180,19 @@ class WeatherApp(tk.Frame):
 
         # Widget
         self.frame_weather_app:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
-        self.frame_weather_app.pack(pady=30, ipadx=200, ipady=400)
+        self.frame_weather_app.pack(pady=30, ipadx=100, ipady=250)
 
         self.title:ttk.Label = ttk.Label(self.frame_weather_app, text="Weather App", font=("Cascadia Code", 40))
         self.title.pack(pady=10)
 
         self.temperature:ttk.Label = ttk.Label(self.frame_weather_app, text="25°", font=("Cascadia Code", 30))
-        self.temperature.place(relx=0.5, rely=0.3, anchor="center")
+        self.temperature.place(relx=0.5, rely=0.4, anchor="center")
 
         self.location:ttk.Label = ttk.Label(self.frame_weather_app, text="Venezia", font=("Cascadia Code", 30))
-        self.location.place(relx=0.5, rely=0.4, anchor="center")
+        self.location.place(relx=0.5, rely=0.5, anchor="center")
 
         self.submit_button:tk.Button = tk.Button(self.frame_weather_app, text="Invia", font=("Cascadia Code",15), cursor="hand2", command=self.request)
-        self.submit_button.place(relx=0.5, rely=0.5, anchor="center")
+        self.submit_button.place(relx=0.5, rely=0.7, anchor="center")
 
     def request(self):
         city = self.location.cget("text")
