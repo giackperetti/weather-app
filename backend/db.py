@@ -122,7 +122,6 @@ class DB:
         return status, return_username, login_success
 
     def user_city(self, username: str) -> str:
-
         return_success: bool = None
         city: str = None
 
