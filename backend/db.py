@@ -78,7 +78,7 @@ class DB:
 
         return status, adding_success
 
-    def login(self, input_username: str, input_password: str) -> Tuple[str, bool]:
+    def login(self, input_username: str, input_password: str) -> Tuple[str, str, bool]:
         """
         login: Method that checks if a user exists
 
@@ -90,6 +90,7 @@ class DB:
 
         login_success: bool = None
         status: str = None
+        return_username: str = None
 
         try:
             conn = self.create_connection()
@@ -106,9 +107,11 @@ class DB:
             if db_cursor.fetchone():
                 login_success = True
                 status = "User logged in successfully"
+                return_username = input_username
             else:
                 login_success = False
                 status = "Invalid username or password"
+                return_username = ""
         except Exception as e:
             login_success = False
             status = f"There was an error: {e}"
@@ -116,7 +119,7 @@ class DB:
             if conn:
                 conn.close()
 
-        return status, login_success
+        return status, return_username, login_success
 
     def user_city(self, username: str) -> str:
 
