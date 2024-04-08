@@ -162,6 +162,7 @@ class SignUpPage(tk.Frame):
             print("Campi di testo vuoti :)")
 
 
+
 class WeatherApp(tk.Frame):
     """
     classe per la creazione di una pagina weather-app
@@ -178,6 +179,9 @@ class WeatherApp(tk.Frame):
         """
         tk.Frame.__init__(self, master)
 
+        database = db.DB()
+        username = database.login()
+
         # Widget
         self.frame_weather_app:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
         self.frame_weather_app.pack(pady=30, ipadx=100, ipady=250)
@@ -188,7 +192,7 @@ class WeatherApp(tk.Frame):
         self.temperature:ttk.Label = ttk.Label(self.frame_weather_app, text="25°", font=("Cascadia Code", 30))
         self.temperature.place(relx=0.5, rely=0.4, anchor="center")
 
-        self.location:ttk.Label = ttk.Label(self.frame_weather_app, text="Venezia", font=("Cascadia Code", 30))
+        self.location:ttk.Label = ttk.Label(self.frame_weather_app, text=database.user_city(), font=("Cascadia Code", 30))
         self.location.place(relx=0.5, rely=0.5, anchor="center")
 
         self.submit_button:tk.Button = tk.Button(self.frame_weather_app, text="Invia", font=("Cascadia Code",15), cursor="hand2", command=self.request)
