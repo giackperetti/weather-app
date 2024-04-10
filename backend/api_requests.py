@@ -69,7 +69,7 @@ class Request:
         :author Giacomo Peretti
         """
 
-        if not self.__is_url_valid(self.__api_url):
+        if not self.__is_url_valid():
             return "The URL isn't valid"
 
         try:
