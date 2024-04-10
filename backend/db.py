@@ -150,37 +150,37 @@ class DB:
 
         return city
 
-    def edit_user_city(self, username: str, new_favorite_city: str) -> Tuple[str, bool]:
-        """
-        edit_user: Method that edits an existing user and saves it to the database
+    # def edit_user_city(self, username: str, new_favorite_city: str) -> Tuple[str, bool]:
+    #     """
+    #     edit_user: Method that edits an existing user and saves it to the database
 
-        :param User user: The user that has to be edited
-        :return Tuple[str, bool]: the first value in the tuple is a string that contains a message about the editing of the user, the second value is a boolean value that is True if the user is edited correctly and False if there is a problem
-        """
+    #     :param User user: The user that has to be edited
+    #     :return Tuple[str, bool]: the first value in the tuple is a string that contains a message about the editing of the user, the second value is a boolean value that is True if the user is edited correctly and False if there is a problem
+    #     """
 
-        try:
-            conn = self.create_connection()
-            db_cursor = conn.cursor()
-            status: str = None
-            if new_favorite_city is not None:
-                db_cursor.execute(
-                    "UPDATE users SET favorite_city = ? WHERE name = ?",
-                    (new_favorite_city, username),
-                )
-                status += "User's favorite city has been updated"
+    #     try:
+    #         conn = self.create_connection()
+    #         db_cursor = conn.cursor()
+    #         status: str = None
+    #         if new_favorite_city is not None:
+    #             db_cursor.execute(
+    #                 "UPDATE users SET favorite_city = ? WHERE name = ?",
+    #                 (new_favorite_city, username),
+    #             )
+    #             status += "User's favorite city has been updated"
 
-            conn.commit()
-            editing_success = True
-        except Exception as e:
-            if conn:
-                conn.rollback()
-            editing_success = False
-            status = f"There was an error: {e}"
-        finally:
-            if conn:
-                conn.close()
+    #         conn.commit()
+    #         editing_success = True
+    #     except Exception as e:
+    #         if conn:
+    #             conn.rollback()
+    #         editing_success = False
+    #         status = f"There was an error: {e}"
+    #     finally:
+    #         if conn:
+    #             conn.close()
 
-        return status, editing_success
+    #     return status, editing_success
 
     def delete_user(self, username: str, user_password: str, user_city: str) -> Tuple[str, bool]:
         """
