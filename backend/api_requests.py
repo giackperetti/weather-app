@@ -3,13 +3,14 @@ import validators
 
 
 class Request:
-    def __init__(self, api_url: str) -> None:
+    def __init__(self, api_url: str, params: dict) -> None:
         """
         __init__: Method that constructs a Request object of class Request
 
         :param str api_url: url that gets used in the api request
         """
         self.__api_url: str = api_url
+        self.__params: dict = params
 
     def get_api_url(self) -> str:
         """
@@ -42,7 +43,7 @@ class Request:
 
         return is_valid
 
-    def make_get_request(self, params: list[str]) -> dict:
+    def make_get_request(self) -> dict:
         """
         make_get_request: Method that makes a get request to the specified api_url
 
@@ -51,7 +52,7 @@ class Request:
         :author Giacomo Peretti
         """
         try:
-            response = requests.get(self.__api_url, params=params)
+            response = requests.get(self.__api_url, params=self.__params)
             response.raise_for_status()
         except requests.HTTPError as e:
             if response.status_code == 404:
