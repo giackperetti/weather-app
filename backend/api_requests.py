@@ -71,7 +71,7 @@ class Request:
 
         if not self.__is_url_valid():
             return "The URL isn't valid"
-
+        
         try:
             response = requests.get(self.__api_url, params=self.__params)
             response.raise_for_status()
