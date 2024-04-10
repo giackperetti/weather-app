@@ -225,8 +225,7 @@ class WeatherApp(tk.Frame):
         Metodo per gestire la richiesta meteo.
         :author dichiara lorenzo
         """
-        city = self.location.cget("text")
-        temperature = self.temperature
+        city: str = self.location.cget("text")
         api_key: str = dotenv_values(".env").get("API_KEY")
         result: dict = {}
 
@@ -234,11 +233,13 @@ class WeatherApp(tk.Frame):
             geolocator = Nominatim(user_agent="Pinin meteo")
             location = geolocator.geocode(city)
             if location:
-                url: str = "https://api.openweathermap.org/data/3.0/onecall"
-                params: dict = {"lat":location.latitude,"lon":location.longitude,"lang":"Italian","appid":api_key}
+                url: str = f"https://api.openweathermap.org/data/3.0/onecall"
+                params: dict = {"appid":api_key, "lat":location.latitude,"lon":location.longitude,"lang":"Italian"}
                 req: api_requests.Request = api_requests.Request(url, params)
                 result = req.make_get_request()
-                temperature.config(text=f'{result["current"]["temp"]}')
+                print(result)
+                #weather_data: dict = result["current"]["temp"]
+                #self.temperature.config(text=f"{weather_data}")
             else:
                 print("Posizione non trovata per la città:", city)
         else:

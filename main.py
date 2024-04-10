@@ -1,4 +1,4 @@
-from frontend.app import App, LoginPage, SignUpPage, WeatherApp
+from frontend.app import App
 
 if __name__ == "__main__":
     window = App()
