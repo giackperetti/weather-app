@@ -30,7 +30,25 @@ class Request:
         """
         self.__api_url: str = new_api_url
 
-    def is_url_valid(self) -> bool:
+    def get_params(self) -> str:
+        """
+        get_params: Method that returns the api's endpoint url
+
+        :return str params: parameters that have to be passed to the endpoint
+        :author Giacomo Peretti
+        """
+        return self.__params
+
+    def set_params(self, new_params: dict) -> None:
+        """
+        set_params: Method that updates the api's endpoint url
+
+        :param str new_params: new parameters to change the value of existing params
+        :author Giacomo Peretti
+        """
+        self.__params: str = new_params
+
+    def __is_url_valid(self) -> bool:
         """
         is_url_valid: Method that checks if a url is valid
 
@@ -47,10 +65,13 @@ class Request:
         """
         make_get_request: Method that makes a get request to the specified api_url
 
-        :param list[str] params: specified parameters for the request
         :return dict response.json: response from the request in json format
         :author Giacomo Peretti
         """
+
+        if not self.__is_url_valid(self.__api_url):
+            return "The URL isn't valid"
+
         try:
             response = requests.get(self.__api_url, params=self.__params)
             response.raise_for_status()
