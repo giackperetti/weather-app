@@ -5,7 +5,6 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-# Now try your imports
 from backend import db 
 from backend import api_requests
 
@@ -69,7 +68,7 @@ class LoginPage(tk.Frame):
         :param tk.Tk master: riferimento al widget padre
         """
         tk.Frame.__init__(self, master)
-        self.app: tk.Tk = master  # Salva l'istanza di App
+        self.app: tk.Tk = master
 
         #widget
         self.frame_login:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2)
@@ -110,7 +109,7 @@ class LoginPage(tk.Frame):
             state, username, b = database.login(user, password)
             del database
             if state == "User logged in successfully":
-                self.app.login_success(username)  # Chiamata al metodo login_success
+                self.app.login_success(username) 
             else:
                 print("Invalid username or password")
         else:
@@ -130,7 +129,7 @@ class SignUpPage(tk.Frame):
         :param tk.Tk master: riferimento al widget padre
         """
         tk.Frame.__init__(self, master)
-        self.app: tk.Tk = master  # Salva l'istanza di App
+        self.app: tk.Tk = master
 
         #widget
 
@@ -179,7 +178,7 @@ class SignUpPage(tk.Frame):
             database: db.DB = db.DB()
             database.signup(username, password, city)
             del database
-            self.app.switch_frame(WeatherApp, city)  # Passa la città alla WeatherApp
+            self.app.switch_frame(WeatherApp, city)
         else:
             print("Campi di testo vuoti :)")
 
@@ -198,6 +197,7 @@ class WeatherApp(tk.Frame):
         metodo costruttore che inizializza un frame per la pagina WeatherApp
 
         :param tk.Tk master: riferimento al widget padre
+        :param str city: città selezionata dall'utente
         """
         tk.Frame.__init__(self, master)
         self.city: str = city
@@ -218,15 +218,6 @@ class WeatherApp(tk.Frame):
         self.submit_button:tk.Button = tk.Button(self.frame_weather_app, text="Invia", font=("Cascadia Code",15), cursor="hand2", command=self.request)
         self.submit_button.place(relx=0.5, rely=0.7, anchor="center")
 
-    def login_success(self, username):
-        """
-        Metodo per gestire il successo del login.
-
-        :param str username: nome utente
-        :author dichiara lorenzo
-        """
-        database = db.DB()
-        self.location.config(text=database.user_city(username))
 
     def request(self):
         """
