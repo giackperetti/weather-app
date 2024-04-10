@@ -226,7 +226,9 @@ class WeatherApp(tk.Frame):
         :author dichiara lorenzo
         """
         city = self.location.cget("text")
+        temperature = self.temperature
         api_key: str = dotenv_values(".env").get("API_KEY")
+        result: dict = {}
 
         if city:
             geolocator = Nominatim(user_agent="Pinin meteo")
@@ -235,7 +237,8 @@ class WeatherApp(tk.Frame):
                 url: str = "https://api.openweathermap.org/data/3.0/onecall"
                 params: dict = {"lat":location.latitude,"lon":location.longitude,"lang":"Italian","appid":api_key}
                 req: api_requests.Request = api_requests.Request(url, params)
-                req.make_get_request()
+                result = req.make_get_request()
+                temperature.config(text=f'{result["current"]["temp"]}')
             else:
                 print("Posizione non trovata per la città:", city)
         else:
