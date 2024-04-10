@@ -3,6 +3,7 @@ from tkinter import ttk
 from geopy.geocoders import Nominatim
 import sys
 import os
+from dotenv import dotenv_values
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from backend import db 
@@ -225,14 +226,17 @@ class WeatherApp(tk.Frame):
         :author dichiara lorenzo
         """
         city = self.location.cget("text")
+        api_key: str = dotenv_values(".env").get("API_KEY")
 
         if city:
             geolocator = Nominatim(user_agent="Pinin meteo")
             location = geolocator.geocode(city)
             if location:
-                print((location.latitude, location.longitude))
+                url: str = "https://api.openweathermap.org/data/3.0/onecall"
+                params: dict = {"lat":location.latitude,"lon":location.longitude,"lang":"Italian","appid":api_key}
+                req: api_requests.Request = api_requests.Request(url, params)
+                req.make_get_request()
             else:
                 print("Posizione non trovata per la città:", city)
         else:
             print("Il campo città è vuoto")
-
