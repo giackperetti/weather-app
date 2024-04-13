@@ -4,10 +4,12 @@ from geopy.geocoders import Nominatim
 import sys
 import os
 from dotenv import dotenv_values
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from backend import db 
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+
+from backend import db
 from backend import api_requests
+
 
 class App(tk.Tk):
     """
@@ -16,6 +18,7 @@ class App(tk.Tk):
     :param tkinter-widget tk.Tk: finestra principale dell'applicazione
     :author dichiara lorenzo
     """
+
     def __init__(self) -> None:
         """
         metodo costruttore che inzializza l'applicazione
@@ -53,7 +56,6 @@ class App(tk.Tk):
         self.current_user_city: str = database.user_city(username)
         self.switch_frame(WeatherApp, self.current_user_city)
 
-        
 
 class LoginPage(tk.Frame):
     """
@@ -62,6 +64,7 @@ class LoginPage(tk.Frame):
     :param tkinter-widget tk.Frame: frame contenente altri widget
     :author dichiara lorenzo
     """
+
     def __init__(self, master) -> None:
         """
         metodo costruttore che inzializza un frame LoginPage
@@ -71,31 +74,57 @@ class LoginPage(tk.Frame):
         tk.Frame.__init__(self, master)
         self.app: tk.Tk = master
 
-        #widget
-        self.frame_login:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2, background="gray18")
+        # widget
+        self.frame_login: tk.Frame = tk.Frame(
+            self, highlightbackground="black", highlightthickness=2
+        )
         self.frame_login.pack(pady=30, ipadx=200, ipady=400)
 
-        self.label:ttk.Label = ttk.Label(self.frame_login, text="Login", font=("Cascadia Code",40),background="gray18",foreground="white smoke")
+        self.label: ttk.Label = ttk.Label(
+            self.frame_login, text="Login", font=("Cascadia Code", 40)
+        )
         self.label.pack(pady=10)
 
-        self.username:ttk.Label = ttk.Label(self.frame_login, text="Username", font=("Cascadia Code",15),background="gray18",foreground="white smoke")
-        self.username.place(rely=0.3, relx=0.5, anchor="center")
+        self.username: ttk.Label = ttk.Label(
+            self.frame_login, text="Username", font=("Cascadia Code", 15)
+        )
+        self.username.place(y=180, x=120)
 
-        self.entry_username:ttk.Entry = ttk.Entry(self.frame_login, width=30, font=("Cascadia Code",15),background="gray18")
-        self.entry_username.place(rely=0.36, relx=0.5,anchor="center")
+        self.entry_username: ttk.Entry = ttk.Entry(
+            self.frame_login, width=30, font=("Cascadia Code", 15)
+        )
+        self.entry_username.place(y=220, x=120)
 
-        self.password:ttk.Label = ttk.Label(self.frame_login, text="Password", font=("Cascadia Code",15),background="gray18", foreground="white smoke")
-        self.password.place(rely=0.43, relx=0.5,anchor="center")
+        self.password: ttk.Label = ttk.Label(
+            self.frame_login, text="Password", font=("Cascadia Code", 15)
+        )
+        self.password.place(y=260, x=120)
 
-        self.entry_password:ttk.Entry = ttk.Entry(self.frame_login, width=30, font=("Cascadia Code",15), show="*")
-        self.entry_password.place(rely=0.49, relx=0.5,anchor="center")
+        self.entry_password: ttk.Entry = ttk.Entry(
+            self.frame_login, width=30, font=("Cascadia Code", 15)
+        )
+        self.entry_password.place(y=300, x=120)
 
-        self.link_sign_up:tk.Label = tk.Label(self, text="Are you not registered yet ?",fg="steel blue" ,font=("Cascadia Code",12, "underline"), cursor="hand2",background="gray18")
-        self.link_sign_up.place(rely=0.55, relx=0.5,anchor="center")
-        self.link_sign_up.bind("<Button-1>", lambda e: self.app.switch_frame(SignUpPage))
+        self.link_sign_up: tk.Label = tk.Label(
+            self,
+            text="Are you not registered yet ?",
+            fg="blue",
+            font=("Cascadia Code", 12, "underline"),
+            cursor="hand2",
+        )
+        self.link_sign_up.place(y=380, x=160)
+        self.link_sign_up.bind(
+            "<Button-1>", lambda e: self.app.switch_frame(SignUpPage)
+        )
 
-        self.button:tk.Button = tk.Button(self, text="Invia", font=("cascadia Code",15), cursor="hand2", command=self.login)
-        self.button.place(rely=0.65, relx=0.5,anchor="center")
+        self.button: tk.Button = tk.Button(
+            self,
+            text="Invia",
+            font=("cascadia Code", 15),
+            cursor="hand2",
+            command=self.login,
+        )
+        self.button.place(y=430, x=250)
 
     def login(self):
         """
@@ -110,11 +139,12 @@ class LoginPage(tk.Frame):
             state, username, b = database.login(user, password)
             del database
             if state == "User logged in successfully":
-                self.app.login_success(username) 
+                self.app.login_success(username)
             else:
                 print("Invalid username or password")
         else:
             print("Campi di testo vuoti")
+
 
 class SignUpPage(tk.Frame):
     """
@@ -123,48 +153,77 @@ class SignUpPage(tk.Frame):
     :param tkinter-widget tk.Frame: frame contenente altri widget
     :author dichiara lorenzo
     """
+
     def __init__(self, master: tk.Tk) -> None:
         """
-        metodo costruttore che inizializza un frame SignUpPage 
+        metodo costruttore che inizializza un frame SignUpPage
 
         :param tk.Tk master: riferimento al widget padre
         """
         tk.Frame.__init__(self, master)
         self.app: tk.Tk = master
 
-        #widget
+        # widget
 
-        self.frame_sign_up:tk.Frame = tk.Frame(self, highlightbackground="black", highlightthickness=2,background="gray18")
+        self.frame_sign_up: tk.Frame = tk.Frame(
+            self, highlightbackground="black", highlightthickness=2
+        )
         self.frame_sign_up.pack(pady=30, ipadx=200, ipady=400)
 
-        self.title:ttk.Label = ttk.Label(self.frame_sign_up, text="Sign Up", font=("Cascadia Code",40),background="gray18",foreground="white smoke")
-        self.title.pack(pady=10)
+        self.label: ttk.Label = ttk.Label(
+            self.frame_sign_up, text="Sign Up", font=("Cascadia Code", 40)
+        )
+        self.label.pack(pady=10)
 
-        self.username:ttk.Label = ttk.Label(self.frame_sign_up, text="Username", font=("Cascadia Code",15),background="gray18",foreground="white smoke")
-        self.username.place(rely=0.3, relx=0.5,anchor="center")
+        self.username: ttk.Label = ttk.Label(
+            self.frame_sign_up, text="Username", font=("Cascadia Code", 15)
+        )
+        self.username.place(y=180, x=120)
 
-        self.entry_username:ttk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15))
-        self.entry_username.place(rely=0.36, relx=0.5,anchor="center")
+        self.entry_username: ttk.Entry = ttk.Entry(
+            self.frame_sign_up, width=30, font=("Cascadia Code", 15)
+        )
+        self.entry_username.place(y=220, x=120)
 
-        self.password:ttk.Label = ttk.Label(self.frame_sign_up, text="Password", font=("Cascadia Code",15),background="gray18",foreground="white smoke")
-        self.password.place(rely=0.42, relx=0.5,anchor="center")
+        self.password: ttk.Label = ttk.Label(
+            self.frame_sign_up, text="Password", font=("Cascadia Code", 15)
+        )
+        self.password.place(y=260, x=120)
 
-        self.entry_password:ttk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15), show="*")
-        self.entry_password.place(rely=0.48, relx=0.5,anchor="center")
+        self.entry_password: ttk.Entry = ttk.Entry(
+            self.frame_sign_up, width=30, font=("Cascadia Code", 15)
+        )
+        self.entry_password.place(y=300, x=120)
 
-        self.favourite_city:tk.Label = ttk.Label(self.frame_sign_up, text="City", font=("Cascadia Code",15),background="gray18", foreground="white smoke")
-        self.favourite_city.place(rely=0.54, relx=0.5,anchor="center")
+        self.favourite_city: tk.Label = ttk.Label(
+            self.frame_sign_up, text="City", font=("Cascadia Code", 15)
+        )
+        self.favourite_city.place(y=340, x=120)
 
-        self.entry_favourite_city:tk.Entry = ttk.Entry(self.frame_sign_up, width=30, font=("Cascadia Code",15))
-        self.entry_favourite_city.place(rely=0.6, relx=0.5,anchor="center")
+        self.entry_favourite_city: tk.Entry = ttk.Entry(
+            self.frame_sign_up, width=30, font=("Cascadia Code", 15)
+        )
+        self.entry_favourite_city.place(y=380, x=120)
 
-        self.link_sign_up:tk.Label = tk.Label(self, text="Are you already registered ?", font=("Cascadia Code",12, "underline"), cursor="hand2" , fg="steel blue",background="gray18")
-        self.link_sign_up.place(rely=0.66, relx=0.5,anchor="center")
+        self.link_sign_up: tk.Label = tk.Label(
+            self,
+            text="Are you already registered ?",
+            font=("Cascadia Code", 12, "underline"),
+            cursor="hand2",
+            fg="blue",
+        )
+        self.link_sign_up.place(y=480, x=175)
 
         self.link_sign_up.bind("<Button-1>", lambda e: self.app.switch_frame(LoginPage))
 
-        self.button:tk.Button = tk.Button(self, text="Invia", font=("cascadia Code",15), cursor="hand2", command=self.signup)
-        self.button.place(rely=0.74, relx=0.5, anchor="center")
+        self.button: tk.Button = tk.Button(
+            self,
+            text="Invia",
+            font=("cascadia Code", 15),
+            cursor="hand2",
+            command=self.signup,
+        )
+        self.button.place(y=530, x=270)
 
     def signup(self):
         """
@@ -184,7 +243,6 @@ class SignUpPage(tk.Frame):
             print("Campi di testo vuoti :)")
 
 
-
 class WeatherApp(tk.Frame):
     """
     classe per la creazione di una pagina weather-app
@@ -193,7 +251,7 @@ class WeatherApp(tk.Frame):
     :author dichiara lorenzo
     """
 
-    def __init__(self, master: tk.Tk, city:str) -> None:
+    def __init__(self, master: tk.Tk, city: str) -> None:
         """
         metodo costruttore che inizializza un frame per la pagina WeatherApp
 
@@ -204,36 +262,34 @@ class WeatherApp(tk.Frame):
         self.city: str = city
 
         # Widget
-        self.frame_weather_app:tk.Frame = tk.Frame(self, highlightbackground="white smoke", highlightthickness=2, background="gray18")
+        self.frame_weather_app: tk.Frame = tk.Frame(
+            self, highlightbackground="black", highlightthickness=2
+        )
         self.frame_weather_app.pack(pady=30, ipadx=100, ipady=250)
 
-        self.title:ttk.Label = ttk.Label(self.frame_weather_app, text="Weather App", font=("Cascadia Code", 40), background="gray18", foreground="white smoke")
+        self.title: ttk.Label = ttk.Label(
+            self.frame_weather_app, text="Weather App", font=("Cascadia Code", 40)
+        )
         self.title.pack(pady=10)
 
-        self.temperature:ttk.Label = ttk.Label(self.frame_weather_app, text="", font=("Cascadia Code", 32),background="gray18",foreground="white smoke")
-        self.temperature.place(relx=0.52, rely=0.3, anchor="center")
+        self.temperature: ttk.Label = ttk.Label(
+            self.frame_weather_app, text="25°", font=("Cascadia Code", 30)
+        )
+        self.temperature.place(relx=0.5, rely=0.4, anchor="center")
 
-        self.location:ttk.Label = ttk.Label(self.frame_weather_app, text=city, font=("Cascadia Code", 30),background="gray18",foreground="white smoke")
-        self.location.place(relx=0.5, rely=0.4, anchor="center")
+        self.location: ttk.Label = ttk.Label(
+            self.frame_weather_app, text=city, font=("Cascadia Code", 30)
+        )  # Empty label
+        self.location.place(relx=0.5, rely=0.5, anchor="center")
 
-        self.description: ttk.Label = ttk.Label(self.frame_weather_app, text="", font=("Cascadia Code", 18),background="gray18",foreground="white smoke")
-        self.description.place(relx=0.5, rely=0.5, anchor="center")
-
-        self.city_entry:ttk.Entry = ttk.Entry(self.frame_weather_app, width=30, font=("Cascadia Code",15)) 
-        self.city_entry.place(relx=0.5, rely=0.7, anchor="center")
-        self.submit_button:tk.Button = tk.Button(self.frame_weather_app, text="Invia", font=("Cascadia Code",15), cursor="hand2", command=self.changeCity)
-        self.submit_button.place(relx=0.5, rely=0.8, anchor="center")
-        self.request()
-
-    def changeCity(self):
-        """
-        metodo per cambiare la città e le sue relative informazioni
-        :author dichiara lorenzo
-        """
-        city = self.city_entry.get()
-        self.location.config(text=f"{city}")
-        self.request()
-
+        self.submit_button: tk.Button = tk.Button(
+            self.frame_weather_app,
+            text="Invia",
+            font=("Cascadia Code", 15),
+            cursor="hand2",
+            command=self.request,
+        )
+        self.submit_button.place(relx=0.5, rely=0.7, anchor="center")
 
     def request(self):
         """
@@ -248,15 +304,20 @@ class WeatherApp(tk.Frame):
             geolocator = Nominatim(user_agent="Pinin meteo")
             location = geolocator.geocode(city)
             if location:
-                url: str = f"https://api.openweathermap.org/data/2.5/weather"
-                params: dict = {"units": "metric","lat":location.latitude,"lon":location.longitude,"lang":"It","appid":api_key}
+                url: str = f"https://api.openweathermap.org/data/3.0/onecall"
+                params: dict = {
+                    "appid": api_key,
+                    "lat": location.latitude,
+                    "lon": location.longitude,
+                    "lang": "Italian",
+                }
                 req: api_requests.Request = api_requests.Request(url, params)
                 result = req.make_get_request()
-                temp: float = result["main"]["temp"]
-                description = result["weather"][0]["description"]
-                self.temperature.config(text=f"{temp}°")
-                self.description.config(text=f"{description}")
+                print(result)
+                # weather_data: dict = result["current"]["temp"]
+                # self.temperature.config(text=f"{weather_data}")
             else:
                 print("Posizione non trovata per la città:", city)
         else:
             print("Il campo città è vuoto")
+
