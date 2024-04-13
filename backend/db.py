@@ -149,3 +149,65 @@ class DB:
                 conn.close()
 
         return city
+
+    # def edit_user_city(self, username: str, new_favorite_city: str) -> Tuple[str, bool]:
+    #     """
+    #     edit_user: Method that edits an existing user and saves it to the database
+
+    #     :param User user: The user that has to be edited
+    #     :return Tuple[str, bool]: the first value in the tuple is a string that contains a message about the editing of the user, the second value is a boolean value that is True if the user is edited correctly and False if there is a problem
+    #     """
+
+    #     try:
+    #         conn = self.create_connection()
+    #         db_cursor = conn.cursor()
+    #         status: str = None
+    #         if new_favorite_city is not None:
+    #             db_cursor.execute(
+    #                 "UPDATE users SET favorite_city = ? WHERE name = ?",
+    #                 (new_favorite_city, username),
+    #             )
+    #             status += "User's favorite city has been updated"
+
+    #         conn.commit()
+    #         editing_success = True
+    #     except Exception as e:
+    #         if conn:
+    #             conn.rollback()
+    #         editing_success = False
+    #         status = f"There was an error: {e}"
+    #     finally:
+    #         if conn:
+    #             conn.close()
+
+    #     return status, editing_success
+
+    def delete_user(self, username: str, user_password: str, user_city: str) -> Tuple[str, bool]:
+        """
+        delete_user: Method that deletes an existing user and saves it to the database
+
+        :param User user: The user that has to be deleted
+        :return Tuple[str, bool]: the first value in the tuple is a string that contains a message about the deletion of the user, the second value is a boolean value that is True if the user is deleted correctly and False if there is a problem
+        """
+
+        try:
+            conn = self.create_connection()
+            db_cursor = conn.cursor()
+
+            db_cursor.execute("SELECT id FROM users WHERE (name, password, favorite_city) VALUES (?, ?, ?)", (username, user_password, user_city))
+            row = db_cursor.fetchone()
+            if row:
+                user_id = row["id"]
+            db_cursor.execute("DELETE FROM users WHERE id = ?", (user_id,))
+            conn.commit()
+            deletion_success = True
+            status = "User deleted successfully."
+        except Exception as e:
+            if conn:
+                conn.rollback()
+            deletion_success = False
+            status = f"There was an error: {e}"
+        finally:
+            if conn:
+                conn.close()
+        return status, deletion_success
