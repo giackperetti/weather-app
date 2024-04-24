@@ -118,6 +118,7 @@ class DB:
 
         :param str username: the username of whom the favorite city must be returned
         :return str: a string that contains a message about failed retrieval of the city of the name of the city itself
+        :author Giacomo Peretti
         """
         city: str = None
 
