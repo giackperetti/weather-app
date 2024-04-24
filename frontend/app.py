@@ -34,6 +34,7 @@ class App(tk.Tk):
         metodo per cambiare frame
 
         :param tk.Frame frame_class: classe frame da visualizzare
+        :param any args: parametri aggiuntivi
         :author dichiara lorenzo
         """
         new_frame = frame_class(self, *args)
@@ -107,7 +108,7 @@ class LoginPage(tk.Frame):
 
         if user is not None and password is not None:
             database: db.DB = db.DB()
-            state, username, b = database.login(user, password)
+            state, username, login_success = database.login(user, password)
             del database
             if state == "User logged in successfully":
                 self.app.login_success(username) 
