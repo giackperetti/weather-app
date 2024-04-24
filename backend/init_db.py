@@ -1,6 +1,10 @@
 from dotenv import dotenv_values
 import sqlite3
 
+"""
+Module that is used to instanciate a new database and create a admin user
+"""
+
 connection: sqlite3.Connection = sqlite3.connect("./backend/users.db")
 config_values = dotenv_values(".env")
 

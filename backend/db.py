@@ -8,6 +8,7 @@ class DB:
         create_connection: Method that handles the creation of the connection to the database
 
         :return sqlite3.Connection: the connection to the database itself
+        :author Giacomo Peretti
         """
         try:
             connection = sqlite3.connect("./backend/users.db")
@@ -56,16 +57,6 @@ class DB:
                 ),
             )
 
-            # db_cursor.execute(
-            #     "SELECT max(id) as max_id, creation_date FROM users WHERE name = ?",
-            #     (username,),
-            # )
-            # row = db_cursor.fetchone()
-            # if row:
-            #     id = row["max_id"]
-            #     date = row["creation_date"]
-            # user.set_id(id)
-            # user.set_creation_date(date)
             conn.commit()
             adding_success = True
             status = "User added successfully"
@@ -122,7 +113,12 @@ class DB:
         return status, return_username, login_success
 
     def user_city(self, username: str) -> str:
-        return_success: bool = None
+        """
+        user_city: Method that returns the user's favorite city which is stored in the database
+
+        :param str username: the username of whom the favorite city must be returned
+        :return str: a string that contains a message about failed retrieval of the city of the name of the city itself
+        """
         city: str = None
 
         try:
@@ -137,12 +133,11 @@ class DB:
             row = db_cursor.fetchone()
             if row:
                 city = row["favorite_city"]
-                return_success = True
+
             else:
                 city = ""
-                return_success = False
+
         except Exception as e:
-            login_success = False
             city = f"There was an error: {e}"
         finally:
             if conn:
